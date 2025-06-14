@@ -1,8 +1,30 @@
-import React from 'react';
+import React, {useState,useContext} from 'react';
 import { FaGoogle, FaFacebook } from "react-icons/fa";
-import {Link} from 'react-router-dom'
+import {Link,useNavigate} from 'react-router-dom'
+import toast from "react-hot-toast";
+import {AuthContext} from "../../context/AuthContext.jsx";
 
 const Login = () => {
+    const [LoginData, setLoginData] = useState({ email: "", password: "" });
+    const navigate = useNavigate();
+    const { login, loginWithGoogle, error, loading } = useContext(AuthContext);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        await login(LoginData.email, LoginData.password);
+
+        if (!error) {
+            toast.success("Login successful!");
+            navigate("/music/search");
+        } else {
+            toast.error(error);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        await loginWithGoogle();
+
+    };
     return (
         <div className="min-h-screen flex flex-col lg:flex-row">
 
@@ -33,15 +55,19 @@ const Login = () => {
                     <h2 className="text-2xl font-semibold text-[#101828] mb-1">Welcome Back.</h2>
                     <p className="text-sm text-gray-500 mb-6">Log in with your email address.</p>
 
-                    <form className="space-y-4">
+                    <form className="space-y-4" onSubmit={handleLogin}>
                         <input
                             type="email"
                             placeholder="Email Address"
+                            value={LoginData.email}
+                            onChange={(e) => setLoginData({...LoginData, email: e.target.value})}
                             className="w-full px-4 py-3 text-black text-center font-bold rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5B76F7]"
                         />
                         <input
                             type="password"
                             placeholder="Password"
+                            value={LoginData.password}
+                            onChange={(e) => setLoginData({...LoginData, password: e.target.value})}
                             className="w-full px-4 py-3 text-black text-center font-bold rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#5B76F7]"
                         />
                         <button
@@ -65,7 +91,7 @@ const Login = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <button className="w-full cursor-pointer flex items-center justify-center gap-2 bg-[#1E2939] text-white py-2 rounded-full">
+                        <button className="w-full cursor-pointer flex items-center justify-center gap-2 bg-[#1E2939] text-white py-2 rounded-full" onClick={handleGoogleLogin}>
                             <FaGoogle size={19} color={"#fff"} />
                             Google
                         </button>

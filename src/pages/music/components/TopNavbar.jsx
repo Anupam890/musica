@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { Search, Menu } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {AuthContext} from '../../../context/AuthContext.jsx'
 
 const TopNavbar = ({ toggleSidebar }) => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +29,8 @@ const TopNavbar = ({ toggleSidebar }) => {
     }
   };
 
+  const {user} = useContext(AuthContext);
+
   return (
     <header className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 border-b border-gray-800 bg-gray-950 w-full">
       <div className="md:hidden cursor-pointer">
@@ -35,7 +38,6 @@ const TopNavbar = ({ toggleSidebar }) => {
           <Menu size={24} className="text-white cursor-pointer" />
         </button>
       </div>
-
       <div className="hidden md:flex space-x-6 text-sm font-medium"></div>
 
       <div className="flex-1 px-4 md:px-0 max-w-xs sm:max-w-sm md:max-w-md relative">
@@ -52,7 +54,7 @@ const TopNavbar = ({ toggleSidebar }) => {
           className="absolute left-7 md:left-3 top-2.5 text-gray-400"
         />
       </div>
-
+      {/*profile */}
       <div className="sm:flex items-center gap-3 ml-2 cursor-pointer">
         <img
           src="https://ui-avatars.com/api/?name=Dave+Cooper&background=0D8ABC&color=fff"
