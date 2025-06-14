@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import Api from "../config/Api.js";
+import Api from "../config/Api";
 
 export const useFetch = create((set) => ({
   songs: null,
@@ -7,13 +7,13 @@ export const useFetch = create((set) => ({
   artists: null,
   TopResults: null,
   setTopResults: (data) => set({ TopResults: data }),
+
   fetchSongs: async (query) => {
     try {
       const response = await Api.get(`/api/search/songs?query=${query}`);
-
       if (response.data.data.results[0]) {
         const topResult = response.data.data.results[0];
-        set({ TopResults: topResult, songs: response.data.data.results.slice(0,5) });
+        set({ TopResults: topResult, songs: response.data.data.results.slice(0, 5) });
       }
     } catch (error) {
       console.error("Error fetching songs:", error);
@@ -30,31 +30,50 @@ export const useFetch = create((set) => ({
       console.error("Error fetching albums:", error);
     }
   },
-  fetchArtists : async(query)=>{
-    try{
+
+  fetchArtists: async (query) => {
+    try {
       const artist = await Api(`/api/search/artists?query=${query}`);
       if (artist.data.data.results[0]) {
         set({ artists: artist.data.data.results });
       } else set({ artists: false });
-    }catch (error) {
+    } catch (error) {
       console.error("Error fetching artists:", error);
     }
-  }
+  },
 }));
-
 export const useStore = create((set) => ({
   playlist: [],
-  musicId: null,
+  currentIndex: 0,
+  currentSong: null,
   isPlaying: false,
-    setMusicId: (id) => set({ musicId: id }),
-    setPlaylist: (playlist) => set({ playlist }),
-  isUserLoggedIn: false,
-  queue: [],
-    setQueue: (queue) => set({ queue }),
-    setIsPlaying: (isPlaying) => set({ isPlaying }),
-  setIsUserLoggedIn: (isUserLoggedIn) => set({ isUserLoggedIn}),
-    addToPlaylist: (song) => set((state) => ({
-        playlist: [...state.playlist, song]
-    })),
 
+  setPlaylist: (playlist) => set({ playlist }),
+  setCurrentIndex: (index) =>
+      set((state) => ({
+        currentIndex: index,
+        currentSong: state.playlist[index] || null,
+      })),
+
+  nextSong: () =>
+      set((state) => {
+        const nextIndex = (state.currentIndex + 1) % state.playlist.length;
+        return {
+          currentIndex: nextIndex,
+          currentSong: state.playlist[nextIndex],
+        };
+      }),
+
+  previousSong: () =>
+      set((state) => {
+        const prevIndex =
+            (state.currentIndex - 1 + state.playlist.length) %
+            state.playlist.length;
+        return {
+          currentIndex: prevIndex,
+          currentSong: state.playlist[prevIndex],
+        };
+      }),
+
+  setIsPlaying: (isPlaying) => set({ isPlaying }),
 }));

@@ -11,20 +11,27 @@ export const AuthProvider = ({ children }) => {
     const login = async (email, password) => {
         setLoading(true);
         setError(null);
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
 
         if (error) {
             setError(error.message);
         } else {
             setUser(data.user);
         }
+
         setLoading(false);
     };
-
 
     const loginWithGoogle = async () => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: "google",
+            options: {
+                redirectTo: "http://localhost:5173/music/explore",
+            },
         });
 
         if (error) {
@@ -42,18 +49,18 @@ export const AuthProvider = ({ children }) => {
             const {
                 data: { session },
             } = await supabase.auth.getSession();
+
             setUser(session?.user ?? null);
             setLoading(false);
         };
 
         getSession();
 
-        // Subscribe to auth changes
-        const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
             setUser(session?.user ?? null);
         });
 
-        return () => listener.subscription.unsubscribe();
+        return () => subscription?.unsubscribe();
     }, []);
 
     return (

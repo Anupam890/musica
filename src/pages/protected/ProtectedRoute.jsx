@@ -5,6 +5,7 @@ import {AuthContext} from "../../context/AuthContext.jsx";
 
 const ProtectedRoute = () => {
     const { user, loading } = useContext(AuthContext);
+    console.log(user);
 
     if (loading) return <div className="text-center mt-10">Loading...</div>;
 

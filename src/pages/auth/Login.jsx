@@ -46,7 +46,7 @@ const Login = () => {
                         <p className="text-sm text-gray-600">
                             Don’t have an account?{" "}
                             <button className="ml-2 px-4 py-1 border cursor-pointer border-gray-400 text-sm rounded-full hover:bg-gray-100">
-                              <Link to={"/sign-up"}>
+                              <Link to={"/sign-up"} >
                                   Sign Up
                               </Link>
                             </button>
