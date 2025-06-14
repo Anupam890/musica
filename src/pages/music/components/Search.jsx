@@ -1,13 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useFetch } from "../../../store/store.js";
+import {} from 'lucide-react';
 
 const Search = () => {
   const { query } = useParams();
   const { fetchSongs, songs, Topresult } = useFetch();
 
   useEffect(() => {
-    if (query) {
+    if(query === ""){
+      return;
+    }else {
       fetchSongs(query);
     }
   }, [query, fetchSongs]);
@@ -46,7 +49,7 @@ const Search = () => {
           </div>
         </div>
       )}
-
+      {/*Search Results */}
       <div>
         <h3 className="text-lg font-semibold mb-2 text-gray-300">Songs</h3>
         {songs && songs.length > 0 ? (
@@ -60,12 +63,12 @@ const Search = () => {
               return (
                 <li
                   key={song.id || index}
-                  className="bg-gray-800 p-4 rounded-lg flex items-center gap-4 shadow"
+                  className="bg-gray-800 p-2 rounded-lg flex items-center gap-4 shadow"
                 >
                   <img
                     src={imageUrl}
                     alt={song.name}
-                    className="w-20 h-20 object-cover rounded-md"
+                    className="w-17 h-17 object-cover rounded-md"
                   />
                   <div>
                     <a

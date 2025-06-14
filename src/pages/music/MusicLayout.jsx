@@ -21,7 +21,7 @@ const MusicLayout = () => {
                     </main>
                 </div>
             </div>
-            <div className=" w-full bg-gray-800 border-t border-gray-700">
+            <div className=" w-full absolute bottom-[-100px] md:bottom-0 md:z-99 bg-gray-800 border-t border-gray-700">
                 <Player />
             </div>
         </div>

@@ -6,6 +6,7 @@ import Register from "./pages/auth/Register";
 import Recent from "./pages/music/components/Recent";
 import Favorites from "./pages/music/components/Favorites";
 import Explore from "./pages/music/components/Explore";
+import Login from "./pages/auth/Login";
 
 const App = () => {
   const routes = createBrowserRouter([
@@ -39,6 +40,9 @@ const App = () => {
     {
       path:"/sign-up",
       element:<Register/>
+    },{
+    path:'/login',
+      element:<Login/>
     }
   ]);
   return <RouterProvider router={routes} />;

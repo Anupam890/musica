@@ -42,8 +42,19 @@ export const useFetch = create((set) => ({
   }
 }));
 
-export const useStore = create((set)=>(
-  {
-    
-  }
-))
+export const useStore = create((set) => ({
+  playlist: [],
+  musicId: null,
+  isPlaying: false,
+    setMusicId: (id) => set({ musicId: id }),
+    setPlaylist: (playlist) => set({ playlist }),
+  isUserLoggedIn: false,
+  queue: [],
+    setQueue: (queue) => set({ queue }),
+    setIsPlaying: (isPlaying) => set({ isPlaying }),
+  setIsUserLoggedIn: (isUserLoggedIn) => set({ isUserLoggedIn}),
+    addToPlaylist: (song) => set((state) => ({
+        playlist: [...state.playlist, song]
+    })),
+
+}));

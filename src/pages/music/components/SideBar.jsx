@@ -2,10 +2,8 @@ import {
   Activity,
   Globe,
   Search,
-  Library,
   Clock,
   Heart,
-  Download,
   FolderPlus,
   AudioWaveform,
   X,
@@ -15,7 +13,7 @@ import { Link } from "react-router-dom";
 const SideBar = ({ isOpen, onClose }) => {
   return (
     <aside
-      className={`fixed md:static top-0 left-0 h-screen w-56 bg-gray-800 text-white p-5 z-50 transform transition-transform duration-300 ease-in-out ${
+      className={`fixed md:static top-0 left-0 h-screen w-46 bg-gray-800 text-white p-5 z-50 transform transition-transform duration-300 ease-in-out ${
         isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       }`}
     >
@@ -49,14 +47,7 @@ const SideBar = ({ isOpen, onClose }) => {
                 <Search size={18} /> Search
               </Link>
             </li>
-            <li>
-              <Link
-                to="/library"
-                className="flex items-center gap-3 text-sm hover:text-indigo-400"
-              >
-                <Library size={18} /> Library
-              </Link>
-            </li>
+
           </ul>
         </div>
 
@@ -69,7 +60,7 @@ const SideBar = ({ isOpen, onClose }) => {
                 to="recent"
                 className="flex items-center gap-3 text-sm hover:text-indigo-400"
               >
-                <Clock size={18} /> Recent
+                <Clock size={18} /> History
               </Link>
             </li>
             <li>
